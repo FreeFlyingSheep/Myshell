@@ -11,7 +11,7 @@ BINARY = $(BUILD_DIR)/$(NAME)
 CC = gcc
 LD = gcc
 INCLUDES = $(addprefix -I, $(INC_DIR))
-CFLAGS   = -O2 -MMD -Wall -ggdb3 $(INCLUDES)
+CFLAGS   = -MMD -Wall -ggdb3 $(INCLUDES)
 
 # Files to be compiled
 SRCS = $(shell find src/ -name "*.c")
