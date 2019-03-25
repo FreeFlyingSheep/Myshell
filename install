@@ -1,0 +1,36 @@
+#!/bin/bash
+# make and install myshell
+
+echo "make and install myshell"
+wd=`pwd`
+dirs=`find apps/* -maxdepth 0 -type d`
+
+echo "make clean"
+make clean > /dev/null
+for dir in $dirs
+do
+    cd $dir
+    make clean > /dev/null
+    cd $wd
+done
+
+echo "make"
+make > /dev/null
+for dir in $dirs
+do
+    cd $dir
+    make > /dev/null
+    cd $wd
+done
+
+echo "install"
+rm -rf bin
+mkdir bin
+cp build/myshell bin
+for dir in $dirs
+do
+    proc=`find $dir/build/* -maxdepth 0 -type f`
+    cp $proc bin
+done
+
+echo "completed"

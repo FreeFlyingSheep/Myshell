@@ -1,9 +1,32 @@
-DIRS = $(shell find . -maxdepth 1 -type d)
+ifeq ($(NAME), )
+$(error Should make in echo app's directory)
+endif
 
-.PHONY: all clean
+BUILD_DIR = ./build
 
-all:
-	$(MAKE) -C DIRS
+OBJ_DIR = $(BUILD_DIR)/obj
+BINARY = $(BUILD_DIR)/$(NAME)
+
+CC = gcc
+LD = gcc
+CFLAGS = -Wall -ggdb3
+
+SRCS = $(shell find ./ -name "*.c")
+INCS = $(shell find ./ -name "*.h")
+OBJS = $(SRCS:./%.c=$(OBJ_DIR)/%.o)
+
+$(OBJ_DIR)/%.o: ./%.c
+	@echo + CC $<
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c -o $@ $<
+
+.PHONY: $(NAME) clean
+
+$(NAME): $(BINARY)
+
+$(BINARY): $(OBJS) $(INCS)
+	@echo + LD $@
+	@$(LD) -o $@ $^
 
 clean:
-	$(MAKE) -C DIRS clean
+	-rm -rf $(BUILD_DIR)

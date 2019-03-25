@@ -32,7 +32,7 @@ $(NAME): $(BINARY)
 
 $(BINARY): $(OBJS)
 	@echo + LD $@
-	@$(LD) -O2 -o $@ $^
+	@$(LD) -o $@ $^
 
 clean:
 	-rm -rf $(BUILD_DIR)
